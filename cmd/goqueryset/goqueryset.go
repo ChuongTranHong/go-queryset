@@ -28,9 +28,10 @@ func main() {
 	}
 
 	ctx, finish := context.WithTimeout(context.Background(), *timeout)
-	defer finish()
 
 	if err := g.Generate(ctx, *inFile, *outFile); err != nil {
 		log.Fatalf("can't generate query sets: %s", err)
 	}
+
+	finish()
 }

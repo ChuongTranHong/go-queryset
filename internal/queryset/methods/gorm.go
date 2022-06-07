@@ -53,7 +53,7 @@ type dbArgMethod struct {
 	oneArgMethod
 }
 
-func newDbArgMethod() dbArgMethod {
+func newDBArgMethod() dbArgMethod {
 	return dbArgMethod{
 		oneArgMethod: newOneArgMethod("db", "*gorm.DB"),
 	}

@@ -45,6 +45,8 @@ var typeNamedString = types.NewNamed(
 const fName = "F"
 
 func TestIgnoredByTagColumn(t *testing.T) {
+	t.Parallel()
+
 	const (
 		gormIgnore = `gorm:"-"`
 		sqlIgnore  = `sql:"-"`
@@ -56,6 +58,8 @@ func TestIgnoredByTagColumn(t *testing.T) {
 }
 
 func TestColumnNameSetInTag(t *testing.T) {
+	t.Parallel()
+
 	const colNameZ = `gorm:"column:z"`
 
 	info := genFieldInfo(newTf(fName, typeString, colNameZ))

@@ -51,8 +51,8 @@ func (b *methodsBuilder) getQuerySetMethodsForField(f field.Info) []methods.Meth
 		likeMethod := methods.NewBinaryFilterMethod(fctx.WithOperationName("like"))
 		notLikeMethod := methods.NewBinaryFilterMethod(fctx.WithOperationName("notlike"))
 
-		methods := append(basicTypeMethods, likeMethod, notLikeMethod)
-		return append(methods, numericMethods...)
+		basicTypeMethods := append(basicTypeMethods, likeMethod, notLikeMethod)
+		return append(basicTypeMethods, numericMethods...)
 	}
 
 	if f.IsNumeric {
@@ -122,8 +122,7 @@ func (b *methodsBuilder) buildStructSelectMethods() *methodsBuilder {
 }
 
 func (b *methodsBuilder) buildAggrMethods() *methodsBuilder {
-	b.ret = append(b.ret,
-		methods.NewCountMethod(b.qsTypeName()))
+	b.ret = append(b.ret, methods.NewCountMethod(b.qsTypeName()))
 	return b
 }
 

@@ -12,7 +12,7 @@ type StructModifierMethod struct {
 func NewStructModifierMethod(name, structTypeName string) StructModifierMethod {
 	r := StructModifierMethod{
 		namedMethod:       newNamedMethod(name),
-		dbArgMethod:       newDbArgMethod(),
+		dbArgMethod:       newDBArgMethod(),
 		structMethod:      newStructMethod("o", "*"+structTypeName),
 		gormErroredMethod: newGormErroredMethod(name, "o", "db"),
 	}

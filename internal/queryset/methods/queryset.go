@@ -8,7 +8,7 @@ import (
 )
 
 const qsReceiverName = "qs"
-const qsDbName = qsReceiverName + ".db"
+const qsDBName = qsReceiverName + ".db"
 
 // retQuerySetMethod
 
@@ -78,7 +78,6 @@ type FieldOperationNoArgsMethod struct {
 }
 
 func newFieldOperationNoArgsMethod(ctx QsFieldContext, transformFieldName bool) FieldOperationNoArgsMethod {
-
 	gormArgName := ctx.fieldName()
 	if transformFieldName {
 		gormArgName = ctx.fieldDBName()
@@ -128,7 +127,7 @@ func (m qsCallGormMethod) GetBody() string {
 
 func newQsCallGormMethod(name, argsFmt string, argsArgs ...interface{}) qsCallGormMethod {
 	return qsCallGormMethod{
-		callGormMethod: newCallGormMethod(name, fmt.Sprintf(argsFmt, argsArgs...), qsDbName),
+		callGormMethod: newCallGormMethod(name, fmt.Sprintf(argsFmt, argsArgs...), qsDBName),
 	}
 }
 
@@ -246,7 +245,7 @@ func newSelectMethod(name, gormName, argTypeName, qsTypeName string) SelectMetho
 		namedMethod:        newNamedMethod(name),
 		baseQuerySetMethod: newBaseQuerySetMethod(qsTypeName),
 		oneArgMethod:       newOneArgMethod("ret", argTypeName),
-		gormErroredMethod:  newGormErroredMethod(gormName, "ret", qsDbName),
+		gormErroredMethod:  newGormErroredMethod(gormName, "ret", qsDBName),
 	}
 }
 
@@ -265,7 +264,7 @@ func NewGetUpdaterMethod(qsTypeName, updaterTypeMethod string) GetUpdaterMethod 
 		baseQuerySetMethod: newBaseQuerySetMethod(qsTypeName),
 		namedMethod:        newNamedMethod("GetUpdater"),
 		constRetMethod:     newConstRetMethod(updaterTypeMethod),
-		constBodyMethod:    newConstBodyMethod("return New%s(%s)", updaterTypeMethod, qsDbName),
+		constBodyMethod:    newConstBodyMethod("return New%s(%s)", updaterTypeMethod, qsDBName),
 	}
 }
 
@@ -285,7 +284,7 @@ func NewDeleteMethod(qsTypeName, structTypeName string) DeleteMethod {
 
 		namedMethod:        newNamedMethod("Delete"),
 		baseQuerySetMethod: newBaseQuerySetMethod(qsTypeName),
-		gormErroredMethod:  newGormErroredMethod("Delete", "&"+structTypeName+"{}", qsDbName),
+		gormErroredMethod:  newGormErroredMethod("Delete", "&"+structTypeName+"{}", qsDBName),
 	}
 }
 
@@ -356,7 +355,7 @@ func NewCountMethod(qsTypeName string) CountMethod {
 		constRetMethod:     newConstRetMethod("(int64, error)"),
 		constBodyMethod: newConstBodyMethod(`var count int64
 			err := %s.Count(&count).Error
-			return count, err`, qsDbName),
+			return count, err`, qsDBName),
 	}
 }
 

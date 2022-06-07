@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-
 	"golang.org/x/tools/go/packages"
 )
 

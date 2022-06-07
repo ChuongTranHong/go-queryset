@@ -21,7 +21,6 @@ import (
 	"github.com/tidbcloud/go-queryset/internal/queryset/generator/test"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"gorm.io/driver/mysql"
-	_ "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -113,6 +112,7 @@ func checkMock(t *testing.T, mock sqlmock.Sqlmock) {
 type testQueryFunc func(t *testing.T, m sqlmock.Sqlmock, db *gorm.DB)
 
 func TestQueries(t *testing.T) {
+	t.Parallel()
 	funcs := []testQueryFunc{
 		testUserSelectAll,
 		testUserSelectAllSingleField,
@@ -273,7 +273,7 @@ func testUserQueryFilters(t *testing.T, m sqlmock.Sqlmock, db *gorm.DB) {
 	for _, c := range cases {
 		t.Run(c.q, func(t *testing.T) {
 			// FIXME: gorm will reorder the query conditions
-			//runUserQueryFilterSubTest(t, c, m, db)
+			// runUserQueryFilterSubTest(t, c, m, db)
 		})
 	}
 }
