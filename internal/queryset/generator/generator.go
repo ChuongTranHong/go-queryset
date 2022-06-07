@@ -9,8 +9,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/jirfag/go-queryset/internal/parser"
 	"github.com/pkg/errors"
+	"github.com/tidbcloud/go-queryset/internal/parser"
 	"golang.org/x/tools/imports"
 )
 

@@ -16,9 +16,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jirfag/go-queryset/internal/parser"
-	"github.com/jirfag/go-queryset/internal/queryset/generator/test"
 	assert "github.com/stretchr/testify/require"
+	"github.com/tidbcloud/go-queryset/internal/parser"
+	"github.com/tidbcloud/go-queryset/internal/queryset/generator/test"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"gorm.io/driver/mysql"
 	_ "gorm.io/driver/mysql"
