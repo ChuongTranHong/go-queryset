@@ -65,6 +65,19 @@ func NewInfoGenerator(pkg *types.Package) *InfoGenerator {
 	}
 }
 
+func (g InfoGenerator) getOriginalTypeParam(t types.Type) string {
+	switch o := t.(type) {
+	case *types.Pointer:
+		return fmt.Sprintf("*%s", g.getOriginalTypeParam(o.Elem()))
+	case *types.Named:
+		return g.getOriginalTypeName(o)
+	case *types.Slice:
+		return fmt.Sprintf("[]%s", g.getOriginalTypeParam(o.Elem()))
+	default:
+		return o.String()
+	}
+}
+
 func (g InfoGenerator) getOriginalTypeName(t *types.Named) string {
 	if t.Obj().Pkg() == g.pkg {
 		// t is from the same package as a struct
@@ -132,15 +145,36 @@ func (g InfoGenerator) GenFieldInfo(f Field) *Info {
 		}
 		return nil
 	case *types.Named:
-		r := g.GenFieldInfo(field{
-			name: f.Name(),
-			typ:  t.Underlying(),
-			tag:  f.Tag(),
-		})
-		if r != nil {
-			r.TypeName = g.getOriginalTypeName(t)
+		if t.TypeArgs().Len() > 0 { // generic type
+			parentType := g.getOriginalTypeName(t)
+			sb := strings.Builder{}
+			sb.WriteString(parentType)
+			sb.WriteString("[")
+			for i := 0; i < t.TypeArgs().Len(); i++ {
+				at := t.TypeArgs().At(i)
+				c := g.getOriginalTypeParam(at)
+				if i > 0 {
+					sb.WriteString(",")
+				}
+				sb.WriteString(c)
+			}
+			sb.WriteString("]")
+			bi.TypeName = sb.String()
+			return &Info{
+				BaseInfo: bi,
+			}
+		} else {
+			r := g.GenFieldInfo(field{
+				name: f.Name(),
+				typ:  t.Underlying(),
+				tag:  f.Tag(),
+			})
+			if r != nil {
+				r.TypeName = g.getOriginalTypeName(t)
+			}
+			return r
 		}
-		return r
+
 	case *types.Struct:
 		bi.IsStruct = true
 		return &Info{
